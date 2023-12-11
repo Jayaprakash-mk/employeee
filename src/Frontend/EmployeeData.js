@@ -2,14 +2,20 @@ import React,{useState,useEffect} from "react";
 import Axios from 'axios';
 import classes from './EmployeeData.module.css';
 import moment from 'moment';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import axios from "axios";
 
-const EmployeeData = () => {
+
+const EmployeeData = (props) => {
     const [newData,setNewData] = useState([]);
 
     useEffect(() => {
         GetData()
     }, []);
 
+    const backToHomeButton = () => {
+        props.choice2(false);
+    }
     const GetData = async () => {
         try{
             const result = await Axios.get('http://localhost:3001/employeeData');
@@ -20,9 +26,24 @@ const EmployeeData = () => {
 
     }
 
+    const Delete = async (id) => {
+        try {
+            const response = await Axios.delete(`http://localhost:3001/deleteData/${id}`);
+            console.log("response message:", response.data);
+            //window.location.reload();
+        }catch (e) {
+            console.log("Something went wrong in deleting in data",e);
+        }
+    }
+
     return(
         <div className={classes.employee}>
-            <h2>Employee Details</h2>
+            <div className={classes.TopBar}>
+                <h1>Employee Details</h1>
+                <div className={classes.backButton}>
+                    <CancelOutlinedIcon sx={{fontSize: 32}} onClick={backToHomeButton}/>
+                </div>
+            </div>
             <table className={classes.Table}>
                 <thead>
                     <tr>
@@ -44,7 +65,8 @@ const EmployeeData = () => {
                                 <td className={classes.Cell}>{data.Salary}</td>
                                 <td className={classes.Cell}>{data.Department}</td>
                                 <td className={classes.Cell}>{moment(data.DOB).utc().format('YYYY-MM-DD')}</td>
-                                <td className={classes.Cell}>{data.PhoneNo}</td>
+                                <td className={classes.Cell}>{data.phoneNo}</td>
+                                <td><button onClick={(e) => Delete(data.Employee_id)}>delete</button></td>
                             </tr>
                         );
                     })

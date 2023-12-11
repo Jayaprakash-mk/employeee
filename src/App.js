@@ -19,8 +19,8 @@ function App() {
   return (
     <>
       {!Add && !View && <HomePage choice1={AddData} choice2={ViewData}/>}
-      {Add && !View && <EmployeeInfo/>}
-      {View && !Add && <EmployeeData/>}
+      {Add && !View && <EmployeeInfo choice1={AddData}/>}
+      {View && !Add && <EmployeeData choice2={ViewData}/>}
     </>
   );
 }

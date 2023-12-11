@@ -69,6 +69,31 @@ app.get('/employeeData', (req, res) => {
     });
 });
 
+app.delete(`/deleteData/:id`, (req,res) => {
+    console.log('DELETE request received. ID:', req.params.id);
+    pool.getConnection((err, connection) => {
+        if(err){
+            console.error("Error in connecting to MYSQL", err);
+            return res.status(500).json({message : "Error in connection to mysql database"});
+        }
+
+        connection.query("Delete from EmployeeData where Employee_id = ?", req.params.id, (err, data) => {
+            connection.release(); // Release the connection back to the pool
+
+            if (err) {
+                console.error("MySQL Query Error:", err);
+                return res.status(500).json({ message: "Error executing SQL query" });
+            } else {
+                return res.json(data);
+            }
+        });
+    });
+
+
+
+})
+
+
 // app.listen(3001, () => {
 //     console.log("port listening")
 // })

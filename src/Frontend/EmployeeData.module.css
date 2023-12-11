@@ -16,3 +16,25 @@
     border: 1px solid black;
     padding: .5rem;
 }
+
+.TopBar {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+.TopBar .onBackIcon {
+    background-color: #D1B3C4;
+    border-color: #D1B3C4;
+    cursor: pointer;
+}
+.TopBar .backButton{
+    padding: 1.2rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    font-size: 42px;
+    color: #363636;
+
+}

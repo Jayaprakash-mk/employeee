@@ -1,11 +1,15 @@
 import React,{useState} from 'react';
 import Axios from 'axios';
 import classes from './Employee.module.css';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
-const EmployeeInfo = () => {
+const EmployeeInfo = (props) => {
     const [newData, setInputData] = useState({Employee_id:"",EmployeeName:"",Salary:0,Department:"",DOB:"",phoneNo:""});
     const [updateStatus, updateEmployee] = useState("");
 
+    const backToHomeButton = () => {
+        props.choice1(false);
+    }
     const Submit = (e) => {
         e.preventDefault();
         console.log(123)
@@ -27,7 +31,12 @@ const EmployeeInfo = () => {
     }
     return (
         <form onSubmit={Submit} className={classes.EmployeeForm}>
-            <h2>Enter Employee Information</h2>
+            <div className={classes.TopBar}>
+                <h1>Employee Information</h1>
+                <div className={classes.backButton}>
+                    <CancelOutlinedIcon sx={{fontSize: 32}} onClick={backToHomeButton}/>
+                </div>
+            </div>
             <div>
                 <div className={classes.EachInput}>
                     <label className={classes.FieldName}>Employee id  :</label>
