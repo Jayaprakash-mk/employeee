@@ -18,7 +18,7 @@ const EmployeeData = (props) => {
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('http://localhost:3001/employeeData');
+            const result = await Axios.get('https://employee-h4u5.onrender.com/employeeData');
             setNewData(result.data);
         } catch (e) {
             console.log("Something went wrong", e);

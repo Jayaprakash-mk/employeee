@@ -13,7 +13,7 @@ const EmployeeInfo = (props) => {
     const Submit = (e) => {
         e.preventDefault();
         console.log(123)
-        Axios.post('http://localhost:3001/employee', {
+        Axios.post('https://employee-h4u5.onrender.com/employee', {
             Employee_id:newData.Employee_id,
             EmployeeName:newData.EmployeeName,
             Salary:newData.Salary,
