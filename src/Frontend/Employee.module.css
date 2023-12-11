@@ -1,0 +1,61 @@
+.EmployeeForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 25rem 2rem 24rem;
+    border: #735D78 solid .5rem;
+    border-radius: 2rem;
+    width : 50rem;
+    overflow: hidden;
+
+}
+
+.EmployeeForm h2{
+    font-size: 38px;
+}
+.EachInput{
+    padding: 1rem
+}
+
+.FieldName{
+    font-weight: bold;
+    font-size: 24px;
+    padding: 1.5rem;
+    font-style: initial;
+    letter-spacing: .1rem;
+}
+
+.InputField{
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: .1rem;
+    color: #363b39;
+    background-color: #d7d7d7;
+    border: 1px solid #ccc;
+    width: 400px;
+    max-width: 100%;
+}
+
+.SubmitBtn{
+    text-align: center;
+    margin: 1rem;
+    padding: .5rem;
+    width: 10rem;
+    height: fit-content;
+    border: #000000 solid .15rem;
+    border-radius: 1.5rem;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.SubmitBtn:hover{
+    background-color: #735D78;
+    color: white;
+    border: whitesmoke solid .15rem;
+
+}

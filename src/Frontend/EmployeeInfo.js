@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Axios from 'axios';
+import classes from './Employee.module.css';
 
 const EmployeeInfo = () => {
     const [newData, setInputData] = useState({Employee_id:"",EmployeeName:"",Salary:0,Department:"",DOB:"",phoneNo:0});
@@ -7,6 +8,7 @@ const EmployeeInfo = () => {
 
     const Submit = (e) => {
         e.preventDefault();
+        console.log(123)
         Axios.post('http://localhost:3001/employee', {
             Employee_id:newData.Employee_id,
             EmployeeName:newData.EmployeeName,
@@ -21,53 +23,38 @@ const EmployeeInfo = () => {
             else{
                 updateEmployee("Employee data inserted successfully");
             }
-        }).catch((error) => {
-                console.error("Axios Error:", error);
-                if (error.response) {
-                    console.error("Server Response Status:", error.response.status);
-                    console.error("Server Response Data:", error.response.data);
-
-                    // Check if there is an 'error' property in the response data
-                    if (error.response.data && error.response.data.error) {
-                        console.error("MySQL Error Message:", error.response.data.error);
-                    } else {
-                        console.error("No MySQL Error Message in the Response Data");
-                    }
-                } else {
-                    console.error("No response received. Request made but no response.");
-                }
         });
     }
     return (
-        <form>
+        <form onSubmit={Submit} className={classes.EmployeeForm}>
             <h2>Enter Employee Information</h2>
             <div>
-                <div>
-                    <label>Employee id  :</label>
-                    <input type="text" onChange={(e) => {setInputData((prev) => ({...prev, Employee_id: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>Employee id  :</label>
+                    <input className={classes.InputField} type="text" onChange={(e) => {setInputData((prev) => ({...prev, Employee_id: e.target.value}))}} ></input>
                 </div>
-                <div>
-                    <label>Name  :</label>
-                    <input type="text" onChange={(e) => {setInputData((prev) => ({...prev, EmployeeName: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>Name  :</label>
+                    <input className={classes.InputField} type="text" onChange={(e) => {setInputData((prev) => ({...prev, EmployeeName: e.target.value}))}} ></input>
                 </div>
-                <div>
-                    <label>Salary  :</label>
-                    <input type="number" onChange={(e) => {setInputData((prev) => ({...prev, Salary: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>Salary  :</label>
+                    <input className={classes.InputField} type="number" onChange={(e) => {setInputData((prev) => ({...prev, Salary: e.target.value}))}} ></input>
                 </div>
-                <div>
-                    <label>Department  :</label>
-                    <input type="text" onChange={(e) => {setInputData((prev) => ({...prev, Department: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>Department  :</label>
+                    <input className={classes.InputField} type="text" onChange={(e) => {setInputData((prev) => ({...prev, Department: e.target.value}))}} ></input>
                 </div>
-                <div>
-                    <label>D O B  :</label>
-                    <input type="date" onChange={(e) => {setInputData((prev) => ({...prev, DOB: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>D O B  :</label>
+                    <input className={classes.InputField} type="date" onChange={(e) => {setInputData((prev) => ({...prev, DOB: e.target.value}))}} ></input>
                 </div>
-                <div>
-                    <label>Phone No  :</label>
-                    <input type="number" onChange={(e) => {setInputData((prev) => ({...prev, PhoneNo: e.target.value}))}} ></input>
+                <div className={classes.EachInput}>
+                    <label className={classes.FieldName}>Phone No  :</label>
+                    <input className={classes.InputField} type="number" onChange={(e) => {setInputData((prev) => ({...prev, PhoneNo: e.target.value}))}} ></input>
                 </div>
             </div>
-            <button onChange={Submit}>submit</button>
+            <button className={classes.SubmitBtn} type='submit'>submit</button>
             <h2>{updateStatus}</h2>
         </form>
     );
