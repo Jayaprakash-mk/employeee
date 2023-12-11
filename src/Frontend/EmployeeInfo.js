@@ -3,7 +3,7 @@ import Axios from 'axios';
 import classes from './Employee.module.css';
 
 const EmployeeInfo = () => {
-    const [newData, setInputData] = useState({Employee_id:"",EmployeeName:"",Salary:0,Department:"",DOB:"",phoneNo:0});
+    const [newData, setInputData] = useState({Employee_id:"",EmployeeName:"",Salary:0,Department:"",DOB:"",phoneNo:""});
     const [updateStatus, updateEmployee] = useState("");
 
     const Submit = (e) => {
@@ -15,7 +15,7 @@ const EmployeeInfo = () => {
             Salary:newData.Salary,
             Department:newData.Department,
             DOB:newData.DOB,
-            phoneNo:newData.phoneNo,
+            phoneNO:newData.phoneNo,
         }).then((response) => {
             if(response.data.message){
                 updateEmployee(response.data.message);
@@ -51,7 +51,7 @@ const EmployeeInfo = () => {
                 </div>
                 <div className={classes.EachInput}>
                     <label className={classes.FieldName}>Phone No  :</label>
-                    <input className={classes.InputField} type="number" onChange={(e) => {setInputData((prev) => ({...prev, PhoneNo: e.target.value}))}} ></input>
+                    <input className={classes.InputField} type="text" onChange={(e) => {setInputData((prev) => ({...prev, phoneNo: e.target.value}))}} ></input>
                 </div>
             </div>
             <button className={classes.SubmitBtn} type='submit'>submit</button>

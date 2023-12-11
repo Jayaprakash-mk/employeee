@@ -3,6 +3,7 @@ import React, {useState}from "react";
 import './App.css';
 import HomePage from "./Frontend/HomePage";
 import EmployeeInfo from "./Frontend/EmployeeInfo";
+import EmployeeData from "./Frontend/EmployeeData";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     <>
       {!Add && !View && <HomePage choice1={AddData} choice2={ViewData}/>}
       {Add && !View && <EmployeeInfo/>}
+      {View && !Add && <EmployeeData/>}
     </>
   );
 }
