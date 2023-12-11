@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors  = require('cors');
+require('dotenv').config();
 
 
 const app = express();
@@ -13,10 +14,10 @@ app.listen(3001, () => {
 
 const pool = mysql.createPool({
     connectionLimit : 10,
-    user : 'root',
-    host : 'localhost',
-    password : 'root',
-    database : 'Company',
+    user : process.env.DB_NAME,
+    host : process.env.DB_HOST,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_DBNAME,
 });
 
 app.post('/employee', (req, res) => {
