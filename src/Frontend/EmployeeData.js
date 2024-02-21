@@ -5,7 +5,7 @@ import moment from 'moment';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import axios from "axios";
 
-
+//{moment(data.dob).utc().format('YYYY-MM-DD')}
 const EmployeeData = (props) => {
     const [newData,setNewData] = useState([]);
 
@@ -18,7 +18,8 @@ const EmployeeData = (props) => {
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('https://employee-h4u5.onrender.com/employeeData');
+            const result = await Axios.get('http://localhost:3001/employeeData');
+            console.log(result.data);
             setNewData(result.data);
         } catch (e) {
             console.log("Something went wrong", e);
@@ -47,26 +48,30 @@ const EmployeeData = (props) => {
             <table className={classes.Table}>
                 <thead>
                     <tr>
-                        <th className={classes.Cell}>Employee Id</th>
                         <th className={classes.Cell}>Employee Name</th>
-                        <th className={classes.Cell}>Salary</th>
+                        <th className={classes.Cell}>Employee Id</th>
                         <th className={classes.Cell}>Department</th>
                         <th className={classes.Cell}>DOB</th>
-                        <th className={classes.Cell}>Phone No</th>
+                        <th className={classes.Cell}>Gender</th>
+                        <th className={classes.Cell}>Designation</th>
+                        <th className={classes.Cell}>Salary</th>
                     </tr>
                 </thead>
                 <tbody>
                 {
+        
                     newData.map((data) => {
                         return (
                             <tr>
-                                <td className={classes.Cell}>{data.Employee_id}</td>
-                                <td className={classes.Cell}>{data.EmployeeName}</td>
-                                <td className={classes.Cell}>{data.Salary}</td>
-                                <td className={classes.Cell}>{data.Department}</td>
-                                <td className={classes.Cell}>{moment(data.DOB).utc().format('YYYY-MM-DD')}</td>
-                                <td className={classes.Cell}>{data.phoneNo}</td>
-                                <td><button onClick={(e) => Delete(data.Employee_id)}>delete</button></td>
+                                
+                                <td className={classes.Cell}>{data.employeeName}</td>
+                                <td className={classes.Cell}>{data.employeeId}</td>
+                                <td className={classes.Cell}>{data.department}</td>
+                                <td className={classes.Cell}>{moment(data.dob).utc().format('YYYY-MM-DD')}</td>
+                                <td className={classes.Cell}>{data.gender}</td>
+                                <td className={classes.Cell}>{data.designation}</td>
+                                <td className={classes.Cell}>{data.salary}</td>
+                                <td><button onClick={(e) => Delete(data.employeeId)}>delete</button></td>
                             </tr>
                         );
                     })
