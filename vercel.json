@@ -5,5 +5,11 @@
             "src": "./src/Backend/Service.js",
             "use": "@vercel/node"
         }
+    ],
+    "routes": [
+        {
+             "source": "/(.*)", 
+             "destination": "/"
+        }
     ]
 }
