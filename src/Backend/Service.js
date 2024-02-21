@@ -26,17 +26,18 @@ app.post('/employee', (req, res) => {
             console.error("Error in connecting to MYSQL", err);
             return res.status(500).json({message : "Error in connection to mysql database"});
         }
-
-        const sql = "Insert into EmployeeData (`Employee_id`,`EmployeeName`,`Salary`,`Department`,`DOB`,`phoneNo`) values (?,?,?,?,?,?)";
+        //console.log(req.body);
+        const sql = "Insert into employeeDetail (`employeeName`,`employeeId`,`department`,`dob`,`gender`,`designation`, `salary`) values (?,?,?,?,?,?,?)";
         const values = [
-            req.body.Employee_id,
-            req.body.EmployeeName,
-            req.body.Salary,
-            req.body.Department,
-            req.body.DOB,
-            req.body.phoneNo
+            req.body.employeeName,
+            req.body.employeeId,
+            req.body.department,
+            req.body.dob,
+            req.body.gender,
+            req.body.designation,
+            req.body.salary,
         ];
-
+        console.log(values);
         connection.query(sql, values, (err, data) => {
             connection.release(); // Release the connection back to the pool
 
@@ -51,15 +52,16 @@ app.post('/employee', (req, res) => {
 });
 
 app.get('/employeeData', (req, res) => {
+    console.log("connection success");
     pool.getConnection((err, connection) => {
         if(err){
             console.error("Error in connecting to MYSQL", err);
             return res.status(500).json({message : "Error in connection to mysql database"});
         }
 
-        connection.query("Select * from EmployeeData", (err, data) => {
+        connection.query("select * from employeeDetail", (err, data) => {
             connection.release(); // Release the connection back to the pool
-
+            console.log(data);
             if (err) {
                 console.error("MySQL Query Error:", err);
                 return res.status(500).json({ message: "Error executing SQL query" });
@@ -78,8 +80,9 @@ app.delete(`/deleteData/:id`, (req,res) => {
             return res.status(500).json({message : "Error in connection to mysql database"});
         }
 
-        connection.query("Delete from EmployeeData where Employee_id = ?", req.params.id, (err, data) => {
-            connection.release(); // Release the connection back to the pool
+        connection.query("Delete from employeeDetail where Employee_id = ?", req.params.id, (err, data) => {
+            connection.r
+            elease(); // Release the connection back to the pool
 
             if (err) {
                 console.error("MySQL Query Error:", err);
@@ -95,6 +98,6 @@ app.delete(`/deleteData/:id`, (req,res) => {
 })
 
 
-// app.listen(3001, () => {
+// app.listen(3002, () => {
 //     console.log("port listening")
 // })

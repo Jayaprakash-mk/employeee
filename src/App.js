@@ -2,8 +2,9 @@ import logo from './logo.svg';
 import React, {useState}from "react";
 import './App.css';
 import HomePage from "./Frontend/HomePage";
-import EmployeeInfo from "./Frontend/EmployeeInfo";
+//import EmployeeInfo from "./Frontend/EmployeeInfo";
 import EmployeeData from "./Frontend/EmployeeData";
+import EmployeeForm from './Frontend/EmployeeForm';
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
   return (
     <>
       {!Add && !View && <HomePage choice1={AddData} choice2={ViewData}/>}
-      {Add && !View && <EmployeeInfo choice1={AddData}/>}
+      {Add && !View && <EmployeeForm choice1={AddData}/>}
       {View && !Add && <EmployeeData choice2={ViewData}/>}
     </>
   );
