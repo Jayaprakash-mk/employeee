@@ -29,7 +29,7 @@ const EmployeeData = (props) => {
 
     const Delete = async (id) => {
         try {
-            const response = await Axios.delete(`https://employee-h4u5.onrender.com/deleteData/${id}`);
+            const response = await Axios.delete(`http://localhost:3001/deleteData/${id}`);
             console.log("response message:", response.data);
             //window.location.reload();
         }catch (e) {

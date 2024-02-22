@@ -80,9 +80,8 @@ app.delete(`/deleteData/:id`, (req,res) => {
             return res.status(500).json({message : "Error in connection to mysql database"});
         }
 
-        connection.query("Delete from employeeDetail where Employee_id = ?", req.params.id, (err, data) => {
-            connection.r
-            elease(); // Release the connection back to the pool
+        connection.query("Delete from employeeDetail where employeeId = ?", req.params.id, (err, data) => {
+            connection.release(); // Release the connection back to the pool
 
             if (err) {
                 console.error("MySQL Query Error:", err);
