@@ -66,7 +66,8 @@ const EmployeeForm = (props) => {
         if(response.data.message){
             console.log(response.data.message);
            //console.log("error");
-           setRequestError(true);
+           setShowSuccessAlert(true);
+           
         }
         else{
             setShowSuccessAlert(true);
