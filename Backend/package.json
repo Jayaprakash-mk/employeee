@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "prisma migrate reset -f",
+    "build": "prisma migrate deploy && prisma generate",
     "prisma generate": "prisma generate",
     "start": "node ./bin/www"
   },
