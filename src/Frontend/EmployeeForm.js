@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import {DatePicker} from '@mui/x-date-pickers';
+//import {DatePicker} from '@mui/x-date-pickers';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import classes from './EmployeeData.module.css';
 
@@ -144,6 +144,13 @@ const EmployeeForm = (props) => {
             fullWidth
             margin="normal"
         />
+        {/* <DatePicker
+          label="Date of Birth"
+          name="dob"
+          value={formData.dob}
+          onChange={handleDateChange}
+          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
+        /> */}
         <FormControl component="fieldset">
           <FormLabel component="legend">Gender</FormLabel>
           <RadioGroup
