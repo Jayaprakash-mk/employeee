@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "prisma migrate reset -f",
-    "prisma:generate": "prisma generate",
+    "prisma generate": "prisma generate",
     "start": "node ./bin/www"
   },
   "dependencies": {
