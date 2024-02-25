@@ -18,7 +18,7 @@ const EmployeeData = (props) => {
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('http://localhost:3001/employeeData');
+            const result = await Axios.get('http://localhost:8080/employeeData');
             console.log(result.data);
             setNewData(result.data);
         } catch (e) {
@@ -29,7 +29,7 @@ const EmployeeData = (props) => {
 
     const Delete = async (id) => {
         try {
-            const response = await Axios.delete(`http://localhost:3001/deleteData/${id}`);
+            const response = await Axios.delete(`http://localhost:8080/deleteData/${id}`);
             console.log("response message:", response.data);
             //window.location.reload();
         }catch (e) {
@@ -62,7 +62,7 @@ const EmployeeData = (props) => {
         
                     newData.map((data) => {
                         return (
-                            <tr>
+                            <tr id={data.id}>
                                 
                                 <td className={classes.Cell}>{data.employeeName}</td>
                                 <td className={classes.Cell}>{data.employeeId}</td>
@@ -71,7 +71,7 @@ const EmployeeData = (props) => {
                                 <td className={classes.Cell}>{data.gender}</td>
                                 <td className={classes.Cell}>{data.designation}</td>
                                 <td className={classes.Cell}>{data.salary}</td>
-                                <td><button onClick={(e) => Delete(data.employeeId)}>delete</button></td>
+                                <td><button onClick={(e) => Delete(data.id)}>delete</button></td>
                             </tr>
                         );
                     })

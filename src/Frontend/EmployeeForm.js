@@ -54,7 +54,7 @@ const EmployeeForm = (props) => {
      
       //console.log(formData);
 
-      Axios.post('http://localhost:3001/employee', {
+      Axios.post('http://localhost:8080/employee', {
         employeeName:formData.employeeName,
         employeeId:formData.employeeId,
         department:formData.department,
