@@ -10,10 +10,11 @@ import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import {DatePicker} from '@mui/x-date-pickers';
+//import {DatePicker} from '@mui/x-date-pickers';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import classes from './EmployeeData.module.css';
 
-
-const EmployeeForm = () => {
+const EmployeeForm = (props) => {
   const [formData, setFormData] = useState({
     employeeName: '',
     employeeId: '',
@@ -32,6 +33,10 @@ const EmployeeForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const backToHomeButton = () => {
+    props.choice1(false);
+  }
+
   const handleDateChange = (date) => {
     setFormData({ ...formData, dob: date });
   };
@@ -46,10 +51,10 @@ const EmployeeForm = () => {
       formData.designation &&
       formData.salary
     ) {
-      // Perform backend logic here (e.g., API call)
+     
       //console.log(formData);
 
-      Axios.post('http://localhost:3001/employee', {
+      Axios.post('http://localhost:8080/employee', {
         employeeName:formData.employeeName,
         employeeId:formData.employeeId,
         department:formData.department,
@@ -61,7 +66,8 @@ const EmployeeForm = () => {
         if(response.data.message){
             console.log(response.data.message);
            //console.log("error");
-           setRequestError(true);
+           setShowSuccessAlert(true);
+           
         }
         else{
             setShowSuccessAlert(true);
@@ -92,6 +98,9 @@ const EmployeeForm = () => {
       <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
       <Typography variant="h5" gutterBottom>
         Employee Details
+        <div className={classes.backButton}>
+            <CancelOutlinedIcon sx={{fontSize: 32}} onClick={backToHomeButton}/>
+        </div>
       </Typography>
       <form>
         <TextField
@@ -131,10 +140,17 @@ const EmployeeForm = () => {
                 shrink: true,
               }}
             value={formData.dob}
-            onChange={handleDateChange}
+            onChange={handleInputChange}
             fullWidth
             margin="normal"
         />
+        {/* <DatePicker
+          label="Date of Birth"
+          name="dob"
+          value={formData.dob}
+          onChange={handleDateChange}
+          renderInput={(params) => <TextField {...params} margin="normal" fullWidth />}
+        /> */}
         <FormControl component="fieldset">
           <FormLabel component="legend">Gender</FormLabel>
           <RadioGroup
