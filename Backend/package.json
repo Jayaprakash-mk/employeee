@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "prisma migrate deploy && prisma generate",
-    "prisma generate": "prisma generate",
+    "build": "prisma migrate",
+    "prisma:generate": "prisma generate",
     "start": "node ./bin/www"
   },
   "dependencies": {
