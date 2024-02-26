@@ -41,7 +41,7 @@ const EmployeeData = (props) => {
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('http://localhost:8080/employeeData');
+            const result = await Axios.get('https://employeee-9vp3.onrender.com/employeeData');
             console.log(result.data);
             setNewData(result.data);
         } catch (e) {
@@ -57,7 +57,7 @@ const EmployeeData = (props) => {
     
       const confirmDelete = async () => {
         try {
-          await Axios.delete(`http://localhost:8080/deleteData/${selectedEmployee}`);
+          await Axios.delete(`https://employeee-9vp3.onrender.com/deleteData/${selectedEmployee}`);
           GetData();
           setOpenDialog(false);
           setAlertMessage("Employee deleted successfully!");
