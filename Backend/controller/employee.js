@@ -5,12 +5,12 @@ const addEmployee = async (req, res, next) => {
     try {
       const data = await prisma.employeeDetail.create({
         data: {
-          employeeName: req.body.employeeName,
-          employeeId: req.body.employeeId,
-          department: req.body.department,
+          employeeName: req.body.employeeName.toLowerCase(),
+          employeeId: req.body.employeeId.toLowerCase(),
+          department: req.body.department.toLowerCase(),
           dob: new Date(req.body.dob),
           gender: req.body.gender,
-          designation: req.body.designation,
+          designation: req.body.designation.toLowerCase(),
           salary: req.body.salary,
         },
       });
@@ -23,8 +23,17 @@ const addEmployee = async (req, res, next) => {
 }
 
 const getEmployeeData =  async (req, res, next) => {
+  const { employeeName, employeeId, department, designation} = req.query;
+  console.log(req.query);
     try {
-      const data = await prisma.employeeDetail.findMany();
+      const data = await prisma.employeeDetail.findMany({
+        where: {
+          employeeName: { contains: employeeName.toLowerCase() || '' },
+          employeeId: { contains: employeeId.toLowerCase() || '' },
+          department: { contains: department.toLowerCase() || '' },
+          designation: { contains: designation.toLowerCase() || '' },
+        },
+      });
       return res.json(data);
     } catch (error) {
       console.error("Prisma Error:", error);

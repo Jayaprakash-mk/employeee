@@ -22,6 +22,7 @@ import {
   } from '@mui/material';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import axios from "axios";
+import EmployeeFilter from "./EmployeeFilter";
 
 //{moment(data.dob).utc().format('YYYY-MM-DD')}
 const EmployeeData = (props) => {
@@ -31,17 +32,25 @@ const EmployeeData = (props) => {
     const [alertMessage, setAlertMessage] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
-
+    const [filters, setFilters] = useState({
+      employeeName: '',
+      employeeId: '',
+      department: '',
+      designation: '',
+    });
+    
     useEffect(() => {
         GetData()
-    }, []);
+    }, [filters]);
 
     const backToHomeButton = () => {
         props.choice2(false);
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('https://employeee-9vp3.onrender.com/employeeData');
+            const result = await Axios.get('http://localhost:8080/employeeData',{
+              params: filters,
+            });
             console.log(result.data);
             setNewData(result.data);
         } catch (e) {
@@ -57,7 +66,7 @@ const EmployeeData = (props) => {
     
       const confirmDelete = async () => {
         try {
-          await Axios.delete(`https://employeee-9vp3.onrender.com/deleteData/${selectedEmployee}`);
+          await Axios.delete(`http://localhost:8080/deleteData/${selectedEmployee}`);
           GetData();
           setOpenDialog(false);
           setAlertMessage("Employee deleted successfully!");
@@ -75,113 +84,121 @@ const EmployeeData = (props) => {
         setOpenSnackbar(false);
       }
 
+      const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+      };
+
     return(
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '4px solid #000', borderRadius: '5px', overflow: 'hidden', margin: '20px' }}>
-      <AppBar position="static" sx={{ backgroundColor: '#000', padding: '10px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <Typography variant="h4">Employee Details</Typography>
-          <IconButton sx={{ fontSize: 38,  color: 'white'}} onClick={backToHomeButton}>
-            <CancelOutlinedIcon/>
-          </IconButton>
-        </div>
-      </AppBar>
-      <Table style={{width: '100%', marginTop: '10px', border: '1px solid #ddd', borderRadius: '5px', overflow: 'hidden' }}>
-        <TableHead>
-          <TableRow>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Name</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Id</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Department</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>DOB</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Gender</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Designation</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Salary</TableCell>
-            <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {newData.map((data) => (
-            <TableRow key={data.id}>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeName}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeId}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.department}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{moment(data.dob).utc().format('YYYY-MM-DD')}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.gender}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.designation}</TableCell>
-              <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.salary}</TableCell>
-              <TableCell style={{ textAlign: 'center' }}>
-                <Button variant="contained" color="error" onClick={() => handleDelete(data.id)}>
-                  Delete
-                </Button>
-              </TableCell>
+    <div>
+      <EmployeeFilter filters={filters} onFilterChange={handleFilterChange} />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '4px solid #000', borderRadius: '5px', overflow: 'hidden', margin: '20px' }}>
+        <AppBar position="static" sx={{ backgroundColor: '#000', padding: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <Typography variant="h4">Employee Details</Typography>
+            <IconButton sx={{ fontSize: 38,  color: 'white'}} onClick={backToHomeButton}>
+              <CancelOutlinedIcon/>
+            </IconButton>
+          </div>
+          
+        </AppBar>
+        <Table style={{width: '100%', marginTop: '10px', border: '1px solid #ddd', borderRadius: '5px', overflow: 'hidden' }}>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Name</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Id</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Department</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>DOB</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Gender</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Designation</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Salary</TableCell>
+              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Action</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {newData.map((data) => (
+              <TableRow key={data.id}>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeName}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeId}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.department}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{moment(data.dob).utc().format('YYYY-MM-DD')}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.gender}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.designation}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.salary}</TableCell>
+                <TableCell style={{ textAlign: 'center' }}>
+                  <Button variant="contained" color="error" onClick={() => handleDelete(data.id)}>
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        
+        <Dialog
+          open={openDialog}
+          onClose={cancelDelete}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          sx={{ 
+              border: '5px solid #ddd',
+              borderRadius: '10px',     
 
-      <Dialog
-        open={openDialog}
-        onClose={cancelDelete}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        sx={{ 
-            border: '5px solid #ddd',
-            borderRadius: '10px',     
-
-            '& .MuiDialogTitle-root': {
-              backgroundColor: '#d32f2f', // Red background for delete operation
-              color: 'white',
-              fontWeight: 'bold',
-              fontSize: '22px'
-            },
-            '& .MuiDialogContent-root': {
-              marginTop: '5px',
-              padding: '20px',
-              color: 'black',
-              borderRadius: '5px',
-            },
-            '& .MuiDialogActions-root': {
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '15px',
-            },
-            '& .MuiButton-root': {
-              border: '2px solid #ddd',
-              borderRadius: '10px',
-              color: 'black',
-              transition: 'background-color 0.3s, border 0.3s',
-            },
-            '& .MuiButton-root:hover': {
-              backgroundColor: '#000',
-              color: 'white',
-              border: '2px solid #fff',
-            },
-          }}
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete Employee?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this employee?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={cancelDelete} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={confirmDelete} color="primary" autoFocus>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={2000}
-        onClose={handleSnackbarClose}
-        message={alertMessage}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-        }}       
-      />
+              '& .MuiDialogTitle-root': {
+                backgroundColor: '#d32f2f', // Red background for delete operation
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '22px'
+              },
+              '& .MuiDialogContent-root': {
+                marginTop: '5px',
+                padding: '20px',
+                color: 'black',
+                borderRadius: '5px',
+              },
+              '& .MuiDialogActions-root': {
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '15px',
+              },
+              '& .MuiButton-root': {
+                border: '2px solid #ddd',
+                borderRadius: '10px',
+                color: 'black',
+                transition: 'background-color 0.3s, border 0.3s',
+              },
+              '& .MuiButton-root:hover': {
+                backgroundColor: '#000',
+                color: 'white',
+                border: '2px solid #fff',
+              },
+            }}
+        >
+          <DialogTitle id="alert-dialog-title">{"Delete Employee?"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to delete this employee?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={cancelDelete} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={confirmDelete} color="primary" autoFocus>
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={2000}
+          onClose={handleSnackbarClose}
+          message={alertMessage}
+          anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+          }}       
+        />
+      </div>
     </div>
     );
 }
