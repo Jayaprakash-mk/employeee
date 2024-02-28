@@ -11,7 +11,7 @@ const addEmployee = async (req, res, next) => {
           dob: new Date(req.body.dob),
           gender: req.body.gender,
           designation: req.body.designation.toLowerCase(),
-          salary: req.body.salary,
+          salary: req.body.salary.toString(),
         },
       });
   

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import Axios from 'axios';
-import classes from './EmployeeData.module.css';
+//import classes from './EmployeeData.module.css';
 import moment from 'moment';
 import {
     AppBar,
@@ -48,7 +48,7 @@ const EmployeeData = (props) => {
     }
     const GetData = async () => {
         try{
-            const result = await Axios.get('https://employeee-9vp3.onrender.com/employeeData',{
+            const result = await Axios.get('http://localhost:8080/employeeData',{
               params: filters,
             });
             console.log(result.data);
@@ -66,7 +66,7 @@ const EmployeeData = (props) => {
     
       const confirmDelete = async () => {
         try {
-          await Axios.delete(`https://employeee-9vp3.onrender.com/deleteData/${selectedEmployee}`);
+          await Axios.delete(`http://localhost:8080/deleteData/${selectedEmployee}`);
           GetData();
           setOpenDialog(false);
           setAlertMessage("Employee deleted successfully!");
@@ -89,8 +89,11 @@ const EmployeeData = (props) => {
       };
 
     return(
-    <div>
-      <EmployeeFilter filters={filters} onFilterChange={handleFilterChange} />
+    <div style={{marginTop: '20px'}}>
+      <div style={{marginLeft: '25px'}}>
+       <EmployeeFilter filters={filters} onFilterChange={handleFilterChange} />
+      </div>
+      
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', border: '4px solid #000', borderRadius: '5px', overflow: 'hidden', margin: '20px' }}>
         <AppBar position="static" sx={{ backgroundColor: '#000', padding: '10px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
@@ -101,30 +104,33 @@ const EmployeeData = (props) => {
           </div>
           
         </AppBar>
-        <Table style={{width: '100%', marginTop: '10px', border: '1px solid #ddd', borderRadius: '5px', overflow: 'hidden' }}>
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Name</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Id</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Department</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>DOB</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Gender</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Designation</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Salary</TableCell>
-              <TableCell style={{ fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Action</TableCell>
+        {/* <div style={{ widht: '50%',height: '500px', overflowY: 'scroll' }}> */}
+        <Table style={{width: '100%', marginTop: '10px', border: '1px solid #ddd', borderRadius: '5px', overflowY: 'hidden', overflowX: "clip" , display: 'flex', flexDirection: 'column' }}>
+          <TableHead sx={{position:'sticky', background:'white', zIndex: 20, overflowX:'hidden', top:0}}>
+            <TableRow sx={{ display:'flex', justifyContent:'space-between'}}>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Name</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Employee Id</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Department</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>DOB</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Gender</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Designation</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Salary</TableCell>
+              <TableCell style={{ width: "100%", fontSize: '20px' ,fontWeight: 'bold', textAlign: 'center' }}>Action</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody sx={{overflowY: 'scroll', height:'500px', display: 'flex', flexDirection: 'column', '::-webkit-scrollbar': {
+            display: 'none'
+          }}}>
             {newData.map((data) => (
-              <TableRow key={data.id}>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeName}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.employeeId}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.department}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{moment(data.dob).utc().format('YYYY-MM-DD')}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.gender}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.designation}</TableCell>
-                <TableCell style={{ fontSize: '18px', textAlign: 'center' }}>{data.salary}</TableCell>
-                <TableCell style={{ textAlign: 'center' }}>
+              <TableRow key={data.id} sx={{display: 'flex', justifyContent: 'space-between'}}>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center', width: '100%' }}>{data.employeeName}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center',width: '100%' }}>{data.employeeId}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' ,width: '100%'}}>{data.department}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center',width: '100%' }}>{moment(data.dob).utc().format('YYYY-MM-DD')}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' ,width: '100%'}}>{data.gender}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' ,width: '100%'}}>{data.designation}</TableCell>
+                <TableCell style={{ fontSize: '18px', textAlign: 'center' ,width: '100%'}}>{data.salary}</TableCell>
+                <TableCell style={{ textAlign: 'center',width: '100%' }}>
                   <Button variant="contained" color="error" onClick={() => handleDelete(data.id)}>
                     Delete
                   </Button>
@@ -133,6 +139,8 @@ const EmployeeData = (props) => {
             ))}
           </TableBody>
         </Table>
+        {/* </div> */}
+        
         
         <Dialog
           open={openDialog}
@@ -190,7 +198,7 @@ const EmployeeData = (props) => {
         </Dialog>
         <Snackbar
           open={openSnackbar}
-          autoHideDuration={2000}
+          autoHideDuration={5000}
           onClose={handleSnackbarClose}
           message={alertMessage}
           anchorOrigin={{
